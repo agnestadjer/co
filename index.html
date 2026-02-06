@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Question sérieuse</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffc0cb, #b7e4c7);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+            z-index: 10;
+            width: 450px; /* plus large */
+        }
+
+        h2 {
+            color: #d63384;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            position: relative;
+            height: 60px; /* hauteur de la zone des boutons */
+        }
+
+        #yes {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #52b788;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+            left: 50px; /* distance depuis la boîte */
+            top: 0;
+        }
+
+        #no {
+            position: absolute; /* permet de bouger */
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            top: 0;
+            z-index: 999;
+        }
+
+        .sad {
+            margin-top: 15px;
+            font-size: 22px;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 22px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    // cœurs aléatoires
+    for (let i = 0; i < 25; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        document.body.appendChild(heart);
+    }
+</script>
+
+<div class="box">
+    <h2>Pardonne moii stpp ma vie 😞😞😞</h2>
+    <div class="buttons">
+        <button id="yes" onclick="oui()">YES ❤️</button>
+        <button id="no">NO 💔</button>
+    </div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+
+    // position initiale de NO à côté de YES
+    function placeNoNextToYes() {
+        const yesRect = yesBtn.getBoundingClientRect();
+        const boxRect = yesBtn.parentElement.getBoundingClientRect();
+        noBtn.style.left = (yesRect.right - boxRect.left + 15) + "px"; // 15px écart
+        noBtn.style.top = "0px";
+    }
+
+    window.onload = placeNoNextToYes;
+    window.onresize = placeNoNextToYes;
+
+    // fuite quand la souris s'approche
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+        const distance = Math.hypot(
+            e.clientX - (rect.left + rect.width / 2),
+            e.clientY - (rect.top + rect.height / 2)
+        );
+
+        if (distance < 120) {
+            const maxX = window.innerWidth - rect.width;
+            const maxY = window.innerHeight - rect.height;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+    });
+
+    function oui() {
+        document.body.innerHTML = `
+            <div style="
+                height:100vh;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                background:linear-gradient(135deg,#ffc0cb,#b7e4c7);
+                font-family:Arial;
+                text-align:center;
+            ">
+                <div>
+                    <h1>YAAAAAY ❤️❤️❤️</h1>
+                    <p style="font-size:22px;">🥰🥰🥰🥰</p>
+                    <div style="font-size:40px;">JE T'AIMEEEE PLUSS QUE TOUT❤️❤️❤️❤️❤️</div>
+                </div>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
